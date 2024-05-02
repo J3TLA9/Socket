@@ -94,7 +94,7 @@ while True:
                 f = open("scoreboard.txt", "r")
                 lines = f.readlines()
                 
-            lines.append(f"{client_name}: {current_score}\n")
+            lines.append(f"{client_name}, {client_diff}: {current_score}\n")
             lines.sort(key=lambda x: int(x.split(': ')[1]), reverse=True)
             
             f = open("scoreboard.txt", "w")

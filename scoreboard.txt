@@ -1,2 +1,4 @@
-JOSH: 192
-JOHN: 93
+JOHN, hard: 198
+JOSH, hard: 192
+JOHN, medium: 93
+JOHN, easy : 45
