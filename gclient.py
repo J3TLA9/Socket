@@ -28,17 +28,26 @@ while True:
         continue
         
     if "Enter your guess:" in data:
-        while True:
+        while "Enter your guess:" in data:
             #let get our input from the user
             user_input = input("").strip()
             s.sendall(user_input.encode())
             reply = s.recv(1024).decode().strip()
             if "Correct" in reply:
                 print(reply)
+                data = "Stop"
                 break
             print(reply)
         continue
-    if 
+        
+    if "Want to play again?" in data:
+        #getting difficulty
+        user_diff = input("").strip()
+        s.sendall(user_diff.encode())
+        continue
+        
+    if "Breaking Connection..." in data:
+        break
         
 s.close()
 

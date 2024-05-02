@@ -82,14 +82,42 @@ while True:
                         
                 except ValueError:
                     conn.sendall(b"Invalid input. Pleace enter a number.")
-            conn.sendall(b"Want to play again?)
+                    
+                    
+            try:
+                f = open("scoreboard.txt", "r")
+                lines = f.readlines()
+                
+            except FileNotFoundError:
+                f = open("scoreboard.txt", "w")
+                f.close()
+                f = open("scoreboard.txt", "r")
+                lines = f.readlines()
+                
+            lines.append(f"{client_name}: {current_score}\n")
+            lines.sort(key=lambda x: int(x.split(': ')[1]), reverse=True)
+            
+            f = open("scoreboard.txt", "w")
+            f.writelines(lines)
+            f.close()
+            
+            conn.sendall(b"Want to play again? [Yes/No]")
             client_again = conn.recv(1024).decode().strip().lower()
             
-            if client_again is "yes":
+            if client_again == "yes":
                 client_diff = None
                 continue
-            else:
+                
+            if client_again == "no":
+                conn.sendall(b"Breaking Connection...")
                 conn.close()
                 conn = None
+                f = open("scoreboard.txt", "r")
+                scoreboard_contents = f.read()
+                f.close()
+                print(scoreboard_contents)
+                break
+            else:
+                conn.sendall(b"Invalid Input. Want to play again?[Yes/No]")
     
 
