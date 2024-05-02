@@ -1,7 +1,7 @@
 import socket
 import random 
 
-host = "0.0.0.0"
+host = "localhost"
 port = 7777
 banner = """
 == Guessing Game v1.0 ==
@@ -14,15 +14,16 @@ def generate_random_int(low, high):
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((host, port))
 s.listen(5)
-
+print(f"server address is {socket.gethostbyname(host)}")
 print(f"server is listening in port {port}")
 guessme = 0
 conn = None
+
 while True:
     if conn is None:
         print("waiting for connection..")
         conn, addr = s.accept()
-        guessme = generate_random_int(1,100)
+        guessme = generate_random_int(1,100) # Change the amount upon the difficulty
         print(f"new client: {addr[0]}")
         # cheat_str = f"==== number to guess is {guessme} \n" + banner 
         # conn.sendall(cheat_str.encode())
