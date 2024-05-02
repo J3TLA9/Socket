@@ -27,13 +27,18 @@ while True:
         s.sendall(user_diff.encode())
         continue
         
-    if "Enter your guess:" in data: 
-        while not "Correct Answer!" in data
+    if "Enter your guess:" in data:
+        while True:
             #let get our input from the user
             user_input = input("").strip()
             s.sendall(user_input.encode())
-            continue
-        break
+            reply = s.recv(1024).decode().strip()
+            if "Correct" in reply:
+                print(reply)
+                break
+            print(reply)
+        continue
+    if 
         
 s.close()
 

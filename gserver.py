@@ -61,27 +61,35 @@ while True:
             conn.sendall(guess_banner.encode())
             # cheat_str = f"==== number to guess is {guessme} \n" + banner 
             # conn.sendall(cheat_str.encode())
-            
+            max_score = {"easy":(50), "medium":100, "hard": 200}[client_diff]
             while True:
                 client_guess = conn.recv(1024)
                 try:
                     guess = int(client_guess.decode().strip())
                     print(f"User guess attempt: {guess}")
-                    
                     if guess == guessme:
                         conn.sendall(b"Correct Answer!")
-                        conn.close()
-                        conn = None
-                        continue
+                        current_score = max_score
+                        break
                     elif guess > guessme:
                         conn.sendall(b"Guess Lower!\nenter guess: ")
+                        max_score -= 1
                         continue
                     elif guess < guessme:
                         conn.sendall(b"Guess Higher!\nenter guess:")
+                        max_score -= 1
                         continue
                         
                 except ValueError:
                     conn.sendall(b"Invalid input. Pleace enter a number.")
-
-
+            conn.sendall(b"Want to play again?)
+            client_again = conn.recv(1024).decode().strip().lower()
+            
+            if client_again is "yes":
+                client_diff = None
+                continue
+            else:
+                conn.close()
+                conn = None
+    
 
